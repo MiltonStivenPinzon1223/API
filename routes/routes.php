@@ -8,7 +8,7 @@ $inputs['raw_input'] = @file_get_contents('php://input');
 $_POST = json_decode($inputs['raw_input'], true);
 if(count(array_filter($rutasArray))<2){
     $json = array(
-        "ruta"=>"not found"
+        "ruta"=>"not asd"
     );
     echo json_encode($json,true);
     return;
@@ -25,10 +25,13 @@ if(count(array_filter($rutasArray))<2){
     print_r($endPoint);
     switch ($endPoint){
         case 'users':
-            if (isset($_POST))
+            if (isset($_POST) && $method == 'POST'){
                 $user = new UserController($method, $complement, $_POST);
-            else
+            }elseif ($method == 'PUT') {
+                $user = new UserController($method, $complement, $_POST);
+            }else{
                 $user = new UserController($method, $complement, 0);
+            }
             $user->index();
             break;
         case 'login':
@@ -37,7 +40,7 @@ if(count(array_filter($rutasArray))<2){
                 $user -> index();
             }else{
                 $json = array(
-                    "ruta"=>"not found"
+                    "ruta"=>"not asd"
                 );
                 echo json_encode($json, true);
                 return;
@@ -45,7 +48,7 @@ if(count(array_filter($rutasArray))<2){
             break;
         default:
             $json = array(
-                "ruta"=>"not found"
+                "ruta"=>"not asd"
             );
             echo json_encode($json,true);
             return;
